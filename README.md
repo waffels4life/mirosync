@@ -37,6 +37,14 @@ javac @sources.txt
 java -cp src/main/java com.mirosync.Main
 ```
 
+> [!TIP]
+> Run with Zap.
+> If you have [Zap](https://github.com/waffels4life/Zap) installed, you can skip the manual compile step:
+>```bash
+>zap init
+>zap run
+>```
+
 ## Project Structure
 
 ```text

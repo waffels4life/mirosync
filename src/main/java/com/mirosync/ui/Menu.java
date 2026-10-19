@@ -32,12 +32,14 @@ public final class Menu {
         return scanner.nextLine().trim().toCharArray();
     }
 
-    public int showMain(boolean isOpen) {
+    public int showMain(boolean isFolderOpen) {
         System.out.println(ProgramMessages.TITLE);
         System.out.println(ProgramMessages.DEFAULT_MENU_TITLE);
-        System.out.println(isOpen
+        System.out.println(isFolderOpen
                 ? ProgramMessages.LOCK_THE_FOLDER_OPTION
                 : ProgramMessages.UNLOCK_THE_FOLDER_OPTION);
+        if (isFolderOpen)
+            System.out.println(ProgramMessages.CLI_OPTION);
         System.out.print(ProgramMessages.TERMINAL_DOODLE);
         return readInt();
     }

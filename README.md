@@ -1,21 +1,34 @@
 # Mirosync
 
-A password-protected folder that hides itself when locked.
+A password-protected vault that hides and encrypts itself when locked.
 
 ## How It Works
 - **First run:** set a password → vault is created and hidden
-- **Next runs:** enter password → vault unlocks
-- **When done:** vault locks and disappears
+- **Next runs:** enter password → vault unlocks, files are decrypted
+- **When done:** files are encrypted → vault locks and disappears
 - **Unexpected close:** detects if vault is still open on next launch
 
 ## Core Features
 - PBKDF2 password hashing with salt
-- AES-256 file encryption on lock/unlock
-- Vault camouflage via `attrib +h +s` (hidden + system)
+- AES-256 file encryption on lock/unlock (streaming I/O)
+- Vault camouflage via `attrib +h +s` (hidden + system attribute)
+- Config stored securely in `AppData/Roaming/Mirosync/`
 - 3 retry attempts on wrong password
 - 15-minute lockout after 3 failed attempts
 - Detects unlocked vault on startup
 - Interactive terminal menu
+- Built-in CLI (`miro >_`) when vault is open
+
+## CLI Commands
+
+```text
+miro >_ info --size → total vault size
+miro >_ info --count → number of files
+miro >_ info --list → list all files
+miro >_ help → show all commands
+miro >_ q → exit CLI
+```
+
 
 ## Run
 ```bash
@@ -25,31 +38,40 @@ java -cp src/main/java com.mirosync.Main
 ```
 
 ## Project Structure
-```
+
+```text
 com.mirosync/
-├── Mirosync.java   → core logic
-├── folder/         → FolderManager.java
-├── password/       → PasswordHasher.java, PasswordStorage.java
-├── validate/       → Validation.java
-├── security/       → FileEncryptor.java, KeyDerivation.java, LockoutManager.java
-├── graphic/        → Menu.java
-└── R/              → ProgramMessages.java
+├── core/ → Mirosync.java, VaultSession.java
+├── vault/ → Vault.java, FolderManager.java, VaultCamouflage.java, VaultState.java
+├── crypto/ → Pbkdf2PasswordHasher.java, KeyDerivation.java, FileEncryptor.java
+├── auth/ → AuthService.java, LockoutService.java
+├── storage/ → ConfigStorage.java, LockoutStorage.java
+├── cli/ → CliSession.java, CliParser.java, CliCommand.java, CliFlag.java
+├── ui/ → Menu.java
+├── config/ → ConfigPaths.java
+├── exception/ → CryptoException, StorageException, AuthException, VaultException
+└── R/ → ProgramMessages.java
 ```
 
 
 ## Roadmap
 
 ### Security & Stability
-- [x] PBKDF2 password hashing
+- [x] PBKDF2 password hashing with salt
 - [x] AES-256 file encryption
-- [x] Vault camouflage
-- [ ] Secure config storage in `AppData`
-- [ ] Proper exception handling
+- [x] Vault camouflage (+h +s)
+- [x] Config in AppData
+- [x] Custom exception hierarchy
+- [x] Streaming file I/O
+- [ ] Cross-platform support (Linux / macOS)
+- [ ] Unit tests
 
 ### Features
-- [ ] Mini CLI (`miro ~info:size`, `miro ~info:count`, ...)
-- [ ] Cross-platform support (Linux / macOS)
+- [x] Interactive terminal menu
+- [x] Built-in CLI with info commands
 - [ ] Multiple vault support
+- [ ] CLI file search (`info --find <name>`)
+- [ ] Export / backup vault
 
 ## Status
-> v0.5 — AES-256 encryption and vault camouflage complete.
+> v1.0 — Core architecture redesign complete. Layered, extensible, and secure.

@@ -9,7 +9,6 @@ public enum CliCommand {
 
     public static CliCommand from(String input) {
         Objects.requireNonNull(input, "input");
-        if (input.isBlank()) return HELP;
         return switch (input.trim().toLowerCase()) {
             case "info" -> INFO;
             case "help" -> HELP;

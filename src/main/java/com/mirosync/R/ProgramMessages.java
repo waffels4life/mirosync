@@ -35,6 +35,10 @@ public final class ProgramMessages {
     // == locked menu ==
     public static final String LOCKED_MENU_TITLE = "[*] Program is locked.";
 
+    // == Cli menu ==
+    public static final String CLI_OPTION = "[2] Miro CLI";
+
+
     // == dynamic counting ==
     // try left counter
     public static String triesLeft(int count) {

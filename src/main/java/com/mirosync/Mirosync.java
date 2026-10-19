@@ -2,6 +2,7 @@ package com.mirosync;
 
 import com.mirosync.auth.AuthService;
 import com.mirosync.auth.LockoutService;
+import com.mirosync.cli.CliSession;
 import com.mirosync.config.ConfigPaths;
 import com.mirosync.crypto.Pbkdf2PasswordHasher;
 import com.mirosync.exception.AuthException;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Mirosync {
     private final Vault vault;
@@ -102,7 +104,13 @@ public class Mirosync {
 
             switch (choice) {
                 case 1 -> handleVaultToggle(state);
-                case 2 -> { /* TODO: CLI */ }
+                case 2 -> {
+                    CliSession cliSession = new CliSession(
+                            vault.getFolderManager(),
+                            new Scanner(System.in)
+                    );
+                    cliSession.start();
+                }
             }
         } catch (VaultException e) {
             throw new MirosyncException("Vault error", e);

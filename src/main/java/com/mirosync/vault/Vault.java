@@ -71,4 +71,8 @@ public final class Vault {
     public VaultState getState() throws VaultException {
         return folderManager.getState();
     }
+
+    public FolderManager getFolderManager() {
+        return folderManager;
+    }
 }

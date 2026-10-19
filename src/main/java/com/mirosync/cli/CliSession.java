@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public final class CliSession {
 
-    private static final String PROMPT = "miro >_";
+    private static final String PROMPT = "miro >_ ";
     private final FolderManager folderManager;
     private final Scanner scanner;
 
